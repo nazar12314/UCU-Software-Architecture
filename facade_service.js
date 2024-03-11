@@ -11,12 +11,20 @@ app.use(express.json());
 app.use(bodyParser.text());
 app.use(cors());
 
+const loggingChoices = [
+    "http://localhost:3001/logging-service",
+    "http://localhost:3002/logging-service",
+    "http://localhost:3003/logging-service"
+];
+
 const handlePost = async (req, res) => {
     const message = req.body;
     const uuid = uuidv4();
 
+    const randomIndex = Math.floor(Math.random() * loggingChoices.length);
+
     try {
-        await axios.post("http://localhost:3001/logging-service", {
+        await axios.post(loggingChoices[randomIndex], {
             uuid,
             message,
         });
@@ -30,9 +38,14 @@ const handlePost = async (req, res) => {
 };
 
 const handleGet = async (req, res) => {
+    const randomIndex = Math.floor(Math.random() * loggingChoices.length);
+
+    console.log(randomIndex)
+
     const loggingServiceResponse = await axios.get(
-        "http://localhost:3001/logging-service"
+        loggingChoices[randomIndex]
     );
+
     const messagesServiceResponse = await axios.get(
         "http://localhost:3002/messages-service"
     );

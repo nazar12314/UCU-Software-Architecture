@@ -16,4 +16,4 @@ router.get("/messages-service", handleGet);
 app.use(router);
 
 app.listen(3002);
-console.log("Server launched correctly!");
+console.log("Server launched correctly");
